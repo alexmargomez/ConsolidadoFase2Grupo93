@@ -27,18 +27,24 @@ class SaborSazonApp:
         self.root.configure(bg="#F4F6F7")
         self.root.resizable(False, False)
 
-        # Colores
-        self.c_primary = "#0B3C26"
-        self.c_accent = "#D4AC0D"
-        self.c_bg = "#F4F6F7"
-        self.c_card = "#FFFFFF"
-        self.c_text = "#1C2833"
-        self.c_btn_report = "#1B4F72"
-        self.c_btn_exit = "#C0392B"
+        # Colores Premium - Estilo Restaurante Gourmet
+        self.c_primary = "#D35400"  # Naranja cálido fuerte
+        self.c_accent = "#E67E22"   # Naranja brillante
+        self.c_bg = "#FDFEFE"       # Fondo ultra blanco
+        self.c_card = "#F8F9F9"     # Tarjeta ligeramente gris
+        self.c_text = "#2C3E50"     # Texto azul oscuro elegante
+        self.c_btn_report = "#2980B9" # Azul profesional
+        self.c_btn_exit = "#C0392B"   # Rojo intenso
 
         self.cliente = GestionClientes()
         
         self.crear_pantalla_login()
+
+    def aplicar_hover(self, btn, color_normal, color_hover):
+        btn.bind("<Enter>", lambda e: btn.config(bg=color_hover))
+        btn.bind("<Leave>", lambda e: btn.config(bg=color_normal))
+
+    def crear_pantalla_login(self):
 
     def crear_pantalla_login(self):
         # Frame principal
@@ -58,12 +64,14 @@ class SaborSazonApp:
         body = tk.Frame(self.frame_login, bg=self.c_bg)
         body.pack(pady=30)
 
-        tk.Label(body, text="🔒 Clave de Acceso:", font=("Segoe UI", 10, "bold"), bg=self.c_bg, fg=self.c_text).pack(pady=5)
-        self.ent_clave = tk.Entry(body, font=("Segoe UI", 10), show="*", justify="center")
-        self.ent_clave.pack(pady=5)
+        tk.Label(body, text="🔒 Clave de Acceso:", font=("Segoe UI", 11, "bold"), bg=self.c_bg, fg=self.c_text).pack(pady=10)
+        self.ent_clave = tk.Entry(body, font=("Segoe UI", 14), show="*", justify="center", width=15, relief="solid", bd=1)
+        self.ent_clave.pack(pady=5, ipady=3)
 
-        tk.Button(body, text="Ingresar 🚪", font=("Segoe UI", 10, "bold"), bg=self.c_primary, fg="#FFFFFF",
-                  activebackground=self.c_accent, cursor="hand2", relief="flat", command=self.validar_login).pack(pady=15, ipadx=10)
+        btn_ingresar = tk.Button(body, text="Ingresar 🚪", font=("Segoe UI", 11, "bold"), bg=self.c_primary, fg="#FFFFFF",
+                  activebackground=self.c_accent, cursor="hand2", relief="flat", command=self.validar_login)
+        btn_ingresar.pack(pady=20, ipadx=20, ipady=5)
+        self.aplicar_hover(btn_ingresar, self.c_primary, self.c_accent)
 
     def validar_login(self):
         clave = self.ent_clave.get()
@@ -143,16 +151,22 @@ class SaborSazonApp:
 
         # Botones de Acción
         frame_btns = tk.Frame(self.reg_window, bg=self.c_bg)
-        frame_btns.pack(pady=10)
+        frame_btns.pack(pady=15)
 
-        tk.Button(frame_btns, text="💾 Guardar Registro", font=font_lbl, bg=self.c_primary, fg="#FFFFFF",
-                  cursor="hand2", relief="flat", command=self.guardar_registro).pack(side="left", padx=5, ipadx=5, ipady=5)
+        btn_guardar = tk.Button(frame_btns, text="💾 Guardar", font=font_lbl, bg=self.c_primary, fg="#FFFFFF",
+                  cursor="hand2", relief="flat", command=self.guardar_registro)
+        btn_guardar.pack(side="left", padx=10, ipadx=10, ipady=8)
+        self.aplicar_hover(btn_guardar, self.c_primary, self.c_accent)
         
-        tk.Button(frame_btns, text="📊 Calcular / Reporte", font=font_lbl, bg=self.c_btn_report, fg="#FFFFFF",
-                  cursor="hand2", relief="flat", command=self.mostrar_reporte).pack(side="left", padx=5, ipadx=5, ipady=5)
+        btn_reporte = tk.Button(frame_btns, text="📊 Ver Reporte", font=font_lbl, bg=self.c_btn_report, fg="#FFFFFF",
+                  cursor="hand2", relief="flat", command=self.mostrar_reporte)
+        btn_reporte.pack(side="left", padx=10, ipadx=10, ipady=8)
+        self.aplicar_hover(btn_reporte, self.c_btn_report, "#3498DB")
 
-        tk.Button(frame_btns, text="🚪 Salir", font=font_lbl, bg=self.c_btn_exit, fg="#FFFFFF",
-                  cursor="hand2", relief="flat", command=self.salir_app).pack(side="left", padx=5, ipadx=10, ipady=5)
+        btn_salir = tk.Button(frame_btns, text="🚪 Salir", font=font_lbl, bg=self.c_btn_exit, fg="#FFFFFF",
+                  cursor="hand2", relief="flat", command=self.salir_app)
+        btn_salir.pack(side="left", padx=10, ipadx=15, ipady=8)
+        self.aplicar_hover(btn_salir, self.c_btn_exit, "#E74C3C")
 
         self.reg_window.protocol("WM_DELETE_WINDOW", self.salir_app)
 
@@ -225,10 +239,12 @@ class SaborSazonApp:
             
             tk.Label(card, text="-"*30, font=font_res, bg=self.c_card).pack(pady=5)
             tk.Label(card, text=f"Fórmula: {self.cliente.num_sesiones} × ${self.cliente.costo_sesion:,.0f}", font=("Segoe UI", 9, "italic"), bg=self.c_card).pack(anchor="w", padx=10)
-            tk.Label(card, text=f"💰 TOTAL: ${total:,.0f}", font=("Segoe UI", 12, "bold"), bg=self.c_card, fg=self.c_primary).pack(anchor="w", padx=10, pady=10)
+            tk.Label(card, text=f"💰 TOTAL: ${total:,.0f}", font=("Segoe UI", 16, "bold"), bg=self.c_card, fg=self.c_primary).pack(anchor="w", padx=10, pady=10)
 
-            tk.Button(top, text="Cerrar", font=("Segoe UI", 10, "bold"), bg=self.c_primary, fg="#FFFFFF",
-                      cursor="hand2", relief="flat", command=top.destroy).pack(pady=10, ipadx=20)
+            btn_cerrar = tk.Button(top, text="Cerrar Reporte", font=("Segoe UI", 10, "bold"), bg=self.c_primary, fg="#FFFFFF",
+                      cursor="hand2", relief="flat", command=top.destroy)
+            btn_cerrar.pack(pady=15, ipadx=20, ipady=5)
+            self.aplicar_hover(btn_cerrar, self.c_primary, self.c_accent)
 
     def salir_app(self):
         if messagebox.askyesno("Confirmar", "¿Está seguro que desea salir de la aplicación?"):
