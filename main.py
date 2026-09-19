@@ -9,10 +9,11 @@ class MenuConsolidador:
         self.root = root
         self.root.title("Menú Consolidador - Fase 2 Grupo 93")
         self.root.geometry("600x650")
-        try:
-            self.root.eval('tk::PlaceWindow . center')
-        except:
-            pass
+        self.root.update_idletasks()
+        w, h = 600, 650
+        x = (self.root.winfo_screenwidth() // 2) - (w // 2)
+        y = (self.root.winfo_screenheight() // 2) - (h // 2)
+        self.root.geometry(f"{w}x{h}+{x}+{y}")
         self.root.configure(bg="#F4F6F7")
         self.root.resizable(False, False)
 

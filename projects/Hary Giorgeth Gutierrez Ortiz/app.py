@@ -29,10 +29,11 @@ def abrir_ventana_reporte(ventana_padre):
     ven_rep = tk.Toplevel(ventana_padre)
     ven_rep.title("Sabor & Sazón — Reporte")
     ven_rep.geometry("400x450")
-    try:
-        ven_rep.eval(f'tk::PlaceWindow {str(ven_rep)} center')
-    except:
-        pass
+    ven_rep.update_idletasks()
+    w, h = 400, 450
+    x = (ven_rep.winfo_screenwidth() // 2) - (w // 2)
+    y = (ven_rep.winfo_screenheight() // 2) - (h // 2)
+    ven_rep.geometry(f"{w}x{h}+{x}+{y}")
     ven_rep.resizable(False, False)
     ven_rep.configure(bg="#F9F9F9")
 
@@ -63,10 +64,11 @@ def abrir_ventana_registro():
     ven_reg = tk.Tk()
     ven_reg.title("Sabor & Sazón — Registro")
     ven_reg.geometry("450x650")
-    try:
-        ven_reg.eval(f'tk::PlaceWindow {str(ven_reg)} center')
-    except:
-        pass
+    ven_reg.update_idletasks()
+    w, h = 450, 650
+    x = (ven_reg.winfo_screenwidth() // 2) - (w // 2)
+    y = (ven_reg.winfo_screenheight() // 2) - (h // 2)
+    ven_reg.geometry(f"{w}x{h}+{x}+{y}")
     ven_reg.resizable(False, False)
     ven_reg.configure(bg="#F9F9F9")
 
@@ -191,10 +193,11 @@ def validar_acceso():
 ventana_login = tk.Tk()
 ventana_login.title("Sabor & Sazón — Acceso")
 ventana_login.geometry("440x490")
-try:
-    ventana_login.eval('tk::PlaceWindow . center')
-except:
-    pass
+ventana_login.update_idletasks()
+w, h = 440, 490
+x = (ventana_login.winfo_screenwidth() // 2) - (w // 2)
+y = (ventana_login.winfo_screenheight() // 2) - (h // 2)
+ventana_login.geometry(f"{w}x{h}+{x}+{y}")
 ventana_login.resizable(False, False)
 ventana_login.configure(bg="#F9F9F9")
 

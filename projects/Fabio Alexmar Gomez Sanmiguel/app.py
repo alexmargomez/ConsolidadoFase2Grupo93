@@ -20,10 +20,11 @@ class SaborSazonApp:
         self.root = root
         self.root.title("Sabor & Sazón - Acceso")
         self.root.geometry("400x300")
-        try:
-            self.root.eval('tk::PlaceWindow . center')
-        except:
-            pass
+        self.root.update_idletasks()
+        w, h = 400, 300
+        x = (self.root.winfo_screenwidth() // 2) - (w // 2)
+        y = (self.root.winfo_screenheight() // 2) - (h // 2)
+        self.root.geometry(f"{w}x{h}+{x}+{y}")
         self.root.configure(bg="#F4F6F7")
         self.root.resizable(False, False)
 
@@ -43,8 +44,6 @@ class SaborSazonApp:
     def aplicar_hover(self, btn, color_normal, color_hover):
         btn.bind("<Enter>", lambda e: btn.config(bg=color_hover))
         btn.bind("<Leave>", lambda e: btn.config(bg=color_normal))
-
-    def crear_pantalla_login(self):
 
     def crear_pantalla_login(self):
         # Frame principal
@@ -86,10 +85,11 @@ class SaborSazonApp:
         self.reg_window = tk.Tk()
         self.reg_window.title("Sabor & Sazón - Registro de Cliente")
         self.reg_window.geometry("500x550")
-        try:
-            self.reg_window.eval(f'tk::PlaceWindow {str(self.reg_window)} center')
-        except:
-            pass
+        self.reg_window.update_idletasks()
+        w, h = 500, 550
+        x = (self.reg_window.winfo_screenwidth() // 2) - (w // 2)
+        y = (self.reg_window.winfo_screenheight() // 2) - (h // 2)
+        self.reg_window.geometry(f"{w}x{h}+{x}+{y}")
         self.reg_window.configure(bg=self.c_bg)
         self.reg_window.resizable(False, False)
 
@@ -216,10 +216,11 @@ class SaborSazonApp:
             top = tk.Toplevel(self.reg_window)
             top.title("Reporte de Servicio")
             top.geometry("350x400")
-            try:
-                top.eval(f'tk::PlaceWindow {str(top)} center')
-            except:
-                pass
+            top.update_idletasks()
+            w, h = 350, 400
+            x = (top.winfo_screenwidth() // 2) - (w // 2)
+            y = (top.winfo_screenheight() // 2) - (h // 2)
+            top.geometry(f"{w}x{h}+{x}+{y}")
             top.configure(bg=self.c_bg)
             top.resizable(False, False)
             top.grab_set() # Modal

@@ -29,10 +29,11 @@ class Aplicacion:
         self.ventana_principal = ventana_principal
         self.ventana_principal.title("Sabor & Sazón - Acceso")
         self.ventana_principal.geometry("500x550")
-        try:
-            self.ventana_principal.eval(f'tk::PlaceWindow {str(self.ventana_principal)} center')
-        except:
-            pass
+        self.ventana_principal.update_idletasks()
+        w, h = 500, 550
+        x = (self.ventana_principal.winfo_screenwidth() // 2) - (w // 2)
+        y = (self.ventana_principal.winfo_screenheight() // 2) - (h // 2)
+        self.ventana_principal.geometry(f"{w}x{h}+{x}+{y}")
         self.ventana_principal.resizable(False, False)
         self.ventana_principal.configure(bg="#F1F8F4")
 
@@ -178,10 +179,11 @@ class Aplicacion:
 
         self.ventana_principal.title("Sabor & Sazón - Registro de Cliente")
         self.ventana_principal.geometry("650x650")
-        try:
-            self.ventana_principal.eval(f'tk::PlaceWindow {str(self.ventana_principal)} center')
-        except:
-            pass
+        self.ventana_principal.update_idletasks()
+        w, h = 650, 650
+        x = (self.ventana_principal.winfo_screenwidth() // 2) - (w // 2)
+        y = (self.ventana_principal.winfo_screenheight() // 2) - (h // 2)
+        self.ventana_principal.geometry(f"{w}x{h}+{x}+{y}")
 
         self.crear_encabezado(
             "Registro de Cliente",
@@ -495,10 +497,11 @@ class Aplicacion:
         reporte = tk.Toplevel(self.ventana_principal)
         reporte.title("Sabor & Sazón - Reporte")
         reporte.geometry("560x570")
-        try:
-            reporte.eval(f'tk::PlaceWindow {str(reporte)} center')
-        except:
-            pass
+        reporte.update_idletasks()
+        w, h = 560, 570
+        x = (reporte.winfo_screenwidth() // 2) - (w // 2)
+        y = (reporte.winfo_screenheight() // 2) - (h // 2)
+        reporte.geometry(f"{w}x{h}+{x}+{y}")
         reporte.resizable(False, False)
         reporte.configure(bg=self.colores["fondo"])
 
