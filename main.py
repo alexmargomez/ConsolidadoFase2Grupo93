@@ -47,21 +47,30 @@ class MenuConsolidador:
                                    font=("Segoe UI", 12), bg=self.bg_color, fg=self.text_color)
         lbl_instruccion.pack(pady=20)
 
-        # Botones de estudiantes
-        estudiantes = [
-            ("Rafael Cubides Rangel", "projects/Rafael Cubides Rangel/app.py"),
-            ("Fabio Alexmar Gomez Sanmiguel", "projects/Fabio Alexmar Gomez Sanmiguel/app.py"),
-            ("Hary Giorgeth Gutierrez Ortiz", "projects/Hary Giorgeth Gutierrez Ortiz/app.py"),
-            ("Sandra Yamile Ortega Blanco", "projects/Sandra Yamile Ortega Blanco/app.py"),
-            ("Julio Angel Suarez Galindo", "projects/Julio Angel Suarez Galindo/app.py")
-        ]
+        # Escaneo dinámico de carpetas
+        base_dir = os.path.dirname(__file__)
+        projects_dir = os.path.join(base_dir, "projects")
+        
+        estudiantes = []
+        if os.path.exists(projects_dir):
+            for nombre_carpeta in sorted(os.listdir(projects_dir)):
+                ruta_carpeta = os.path.join(projects_dir, nombre_carpeta)
+                # Solo considerar carpetas (ignorar archivos sueltos)
+                if os.path.isdir(ruta_carpeta):
+                    ruta_script = os.path.join("projects", nombre_carpeta, "app.py")
+                    estudiantes.append((nombre_carpeta, ruta_script))
+
+        if not estudiantes:
+            lbl_vacio = tk.Label(main_frame, text="⚠️ No se encontraron proyectos en la carpeta 'projects/'.", 
+                                 font=("Segoe UI", 10, "italic"), bg=self.bg_color, fg="#C0392B")
+            lbl_vacio.pack(pady=10)
 
         for nombre, ruta in estudiantes:
             btn = tk.Button(main_frame, text=f"👤 {nombre}", font=("Segoe UI", 12, "bold"),
                             bg=self.primary_color, fg="#FFFFFF", activebackground=self.accent_color,
                             activeforeground=self.text_color, relief="flat", cursor="hand2",
                             command=lambda r=ruta, n=nombre: self.ejecutar_proyecto(n, r))
-            btn.pack(fill="x", pady=10, ipady=12)
+            btn.pack(fill="x", pady=5, ipady=12)
 
         # Botón Salir
         btn_salir = tk.Button(main_frame, text="🚪 Salir", font=("Segoe UI", 10, "bold"),
