@@ -37,6 +37,14 @@ class SaborSazonApp:
         self.c_btn_report = "#1ABC9C" # Turquesa / Teal para contraste
         self.c_btn_exit = "#E74C3C"   # Rojo intenso
 
+        # Configurar Estilos Modernos TTK
+        self.style = ttk.Style(self.root)
+        if 'clam' in self.style.theme_names():
+            self.style.theme_use('clam')
+        self.style.configure("TCombobox", fieldbackground="#FFFFFF", bordercolor="#BDC3C7", arrowcolor="#1A5276")
+        self.style.configure("TRadiobutton", background=self.c_card, font=("Segoe UI", 10))
+        self.style.map("TRadiobutton", background=[('active', self.c_card)])
+
         self.cliente = GestionClientes()
         
         self.crear_pantalla_login()
@@ -108,46 +116,46 @@ class SaborSazonApp:
         font_ent = ("Segoe UI", 9)
 
         # Identificación
-        tk.Label(card, text="👤 Identificación:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=0, column=0, sticky="e", padx=10, pady=10)
-        self.ent_id = tk.Entry(card, font=font_ent, relief="flat", highlightbackground="#BDC3C7", highlightcolor=self.c_accent, highlightthickness=2)
-        self.ent_id.grid(row=0, column=1, sticky="w", padx=10, ipady=3)
+        tk.Label(card, text="👤 Identificación:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=0, column=0, sticky="e", padx=10, pady=12)
+        self.ent_id = ttk.Entry(card, font=font_ent, width=32)
+        self.ent_id.grid(row=0, column=1, sticky="w", padx=10)
 
         # Nombre
-        tk.Label(card, text="👤 Nombre Completo:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=1, column=0, sticky="e", padx=10, pady=10)
-        self.ent_nombre = tk.Entry(card, font=font_ent, width=30, relief="flat", highlightbackground="#BDC3C7", highlightcolor=self.c_accent, highlightthickness=2)
-        self.ent_nombre.grid(row=1, column=1, sticky="w", padx=10, ipady=3)
+        tk.Label(card, text="👤 Nombre Completo:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=1, column=0, sticky="e", padx=10, pady=12)
+        self.ent_nombre = ttk.Entry(card, font=font_ent, width=32)
+        self.ent_nombre.grid(row=1, column=1, sticky="w", padx=10)
 
         # Género
-        tk.Label(card, text="🚻 Género:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=2, column=0, sticky="e", padx=10, pady=10)
+        tk.Label(card, text="🚻 Género:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=2, column=0, sticky="e", padx=10, pady=12)
         self.var_genero = tk.StringVar(value="Masculino")
         frame_gen = tk.Frame(card, bg=self.c_card)
         frame_gen.grid(row=2, column=1, sticky="w", padx=10)
-        tk.Radiobutton(frame_gen, text="Masculino", variable=self.var_genero, value="Masculino", font=font_ent, bg=self.c_card).pack(side="left")
-        tk.Radiobutton(frame_gen, text="Femenino", variable=self.var_genero, value="Femenino", font=font_ent, bg=self.c_card).pack(side="left")
+        ttk.Radiobutton(frame_gen, text="Masculino", variable=self.var_genero, value="Masculino", style="TRadiobutton").pack(side="left", padx=(0, 10))
+        ttk.Radiobutton(frame_gen, text="Femenino", variable=self.var_genero, value="Femenino", style="TRadiobutton").pack(side="left")
 
         # Tipo de Menú
-        tk.Label(card, text="🍽️ Tipo de Menú:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=3, column=0, sticky="e", padx=10, pady=10)
-        self.combo_menu = ttk.Combobox(card, font=font_ent, state="readonly", width=25)
+        tk.Label(card, text="🍽️ Tipo de Menú:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=3, column=0, sticky="e", padx=10, pady=12)
+        self.combo_menu = ttk.Combobox(card, font=font_ent, state="readonly", width=30)
         self.combo_menu['values'] = ("Menú ejecutivo", "Menú vegetariano", "Menú degustación", "Menú infantil", "Menú gourmet")
         self.combo_menu.grid(row=3, column=1, sticky="w", padx=10)
         self.combo_menu.bind("<<ComboboxSelected>>", self.actualizar_costo)
 
         # Costo por Sesión
-        tk.Label(card, text="💳 Costo por Sesión ($):", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=4, column=0, sticky="e", padx=10, pady=10)
+        tk.Label(card, text="💳 Costo por Sesión ($):", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=4, column=0, sticky="e", padx=10, pady=12)
         self.var_costo = tk.StringVar(value="0")
-        self.ent_costo = tk.Entry(card, textvariable=self.var_costo, font=font_ent, state="disabled", relief="flat", highlightbackground="#BDC3C7", highlightthickness=1)
-        self.ent_costo.grid(row=4, column=1, sticky="w", padx=10, ipady=3)
+        self.ent_costo = ttk.Entry(card, textvariable=self.var_costo, font=font_ent, state="readonly", width=32)
+        self.ent_costo.grid(row=4, column=1, sticky="w", padx=10)
 
         # Número de sesiones
-        tk.Label(card, text="📅 Número de sesiones:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=5, column=0, sticky="e", padx=10, pady=10)
-        self.ent_sesiones = tk.Entry(card, font=font_ent, relief="flat", highlightbackground="#BDC3C7", highlightcolor=self.c_accent, highlightthickness=2)
-        self.ent_sesiones.grid(row=5, column=1, sticky="w", padx=10, ipady=3)
+        tk.Label(card, text="📅 Número de sesiones:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=5, column=0, sticky="e", padx=10, pady=12)
+        self.ent_sesiones = ttk.Entry(card, font=font_ent, width=32)
+        self.ent_sesiones.grid(row=5, column=1, sticky="w", padx=10)
 
         # Fecha Registro
-        tk.Label(card, text="📅 Fecha de Registro:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=6, column=0, sticky="e", padx=10, pady=10)
+        tk.Label(card, text="📅 Fecha de Registro:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=6, column=0, sticky="e", padx=10, pady=12)
         self.var_fecha = tk.StringVar(value=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        self.ent_fecha = tk.Entry(card, textvariable=self.var_fecha, font=font_ent, state="disabled", width=25, relief="flat", highlightbackground="#BDC3C7", highlightthickness=1)
-        self.ent_fecha.grid(row=6, column=1, sticky="w", padx=10, ipady=3)
+        self.ent_fecha = ttk.Entry(card, textvariable=self.var_fecha, font=font_ent, state="readonly", width=32)
+        self.ent_fecha.grid(row=6, column=1, sticky="w", padx=10)
 
         # Botones de Acción
         frame_btns = tk.Frame(self.reg_window, bg=self.c_bg)
