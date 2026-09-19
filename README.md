@@ -54,6 +54,18 @@ ConsolidadoFase2Grupo93/
 
 ---
 
+## 📝 Instrucciones para la Integración (Compañeros de Grupo)
+
+Para que el proyecto de cada integrante funcione dentro del menú consolidador de la Fase 2, se deben seguir estos pasos:
+
+1. **Consolidar el código:** Todo el código fuente de su aplicación debe estar consolidado en un único archivo llamado exactamente `app.py`.
+2. **Subir a su carpeta:** Cada estudiante debe colocar su archivo `app.py` dentro de la carpeta que lleva su nombre (en la ruta `projects/Su Nombre Completo/`).
+3. **Opción alternativa:** Pueden enviarme directamente su archivo `app.py` por los canales de comunicación y yo me encargaré de insertarlo en la carpeta correspondiente.
+
+> **Nota:** El menú principal (`main.py`) ya está programado y diseñado con una arquitectura tolerante a fallos para leer y ejecutar automáticamente cualquier archivo `app.py` que detecte dentro de esas carpetas.
+
+---
+
 ## 💻 Instrucciones de Ejecución
 
 1. Clonar o descargar el repositorio completo.
