@@ -28,14 +28,14 @@ class SaborSazonApp:
         self.root.configure(bg="#F4F6F7")
         self.root.resizable(False, False)
 
-        # Colores Premium - Estilo Restaurante Gourmet
-        self.c_primary = "#D35400"  # Naranja cálido fuerte
-        self.c_accent = "#E67E22"   # Naranja brillante
-        self.c_bg = "#FDFEFE"       # Fondo ultra blanco
-        self.c_card = "#F8F9F9"     # Tarjeta ligeramente gris
-        self.c_text = "#2C3E50"     # Texto azul oscuro elegante
-        self.c_btn_report = "#2980B9" # Azul profesional
-        self.c_btn_exit = "#C0392B"   # Rojo intenso
+        # Colores Premium - Estilo Azul Elegante
+        self.c_primary = "#1A5276"    # Azul oscuro elegante
+        self.c_accent = "#2980B9"     # Azul brillante (hover)
+        self.c_bg = "#F4F6F7"         # Fondo claro
+        self.c_card = "#FFFFFF"       # Tarjeta blanca pura
+        self.c_text = "#1C2833"       # Texto oscuro
+        self.c_btn_report = "#1ABC9C" # Turquesa / Teal para contraste
+        self.c_btn_exit = "#E74C3C"   # Rojo intenso
 
         self.cliente = GestionClientes()
         
@@ -64,7 +64,7 @@ class SaborSazonApp:
         body.pack(pady=30)
 
         tk.Label(body, text="🔒 Clave de Acceso:", font=("Segoe UI", 11, "bold"), bg=self.c_bg, fg=self.c_text).pack(pady=10)
-        self.ent_clave = tk.Entry(body, font=("Segoe UI", 14), show="*", justify="center", width=15, relief="solid", bd=1)
+        self.ent_clave = tk.Entry(body, font=("Segoe UI", 14), show="*", justify="center", width=15, relief="flat", highlightbackground="#BDC3C7", highlightcolor=self.c_accent, highlightthickness=2)
         self.ent_clave.pack(pady=5, ipady=3)
 
         btn_ingresar = tk.Button(body, text="Ingresar 🚪", font=("Segoe UI", 11, "bold"), bg=self.c_primary, fg="#FFFFFF",
@@ -109,13 +109,13 @@ class SaborSazonApp:
 
         # Identificación
         tk.Label(card, text="👤 Identificación:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=0, column=0, sticky="e", padx=10, pady=10)
-        self.ent_id = tk.Entry(card, font=font_ent)
-        self.ent_id.grid(row=0, column=1, sticky="w", padx=10)
+        self.ent_id = tk.Entry(card, font=font_ent, relief="flat", highlightbackground="#BDC3C7", highlightcolor=self.c_accent, highlightthickness=2)
+        self.ent_id.grid(row=0, column=1, sticky="w", padx=10, ipady=3)
 
         # Nombre
         tk.Label(card, text="👤 Nombre Completo:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=1, column=0, sticky="e", padx=10, pady=10)
-        self.ent_nombre = tk.Entry(card, font=font_ent, width=30)
-        self.ent_nombre.grid(row=1, column=1, sticky="w", padx=10)
+        self.ent_nombre = tk.Entry(card, font=font_ent, width=30, relief="flat", highlightbackground="#BDC3C7", highlightcolor=self.c_accent, highlightthickness=2)
+        self.ent_nombre.grid(row=1, column=1, sticky="w", padx=10, ipady=3)
 
         # Género
         tk.Label(card, text="🚻 Género:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=2, column=0, sticky="e", padx=10, pady=10)
@@ -135,19 +135,19 @@ class SaborSazonApp:
         # Costo por Sesión
         tk.Label(card, text="💳 Costo por Sesión ($):", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=4, column=0, sticky="e", padx=10, pady=10)
         self.var_costo = tk.StringVar(value="0")
-        self.ent_costo = tk.Entry(card, textvariable=self.var_costo, font=font_ent, state="disabled")
-        self.ent_costo.grid(row=4, column=1, sticky="w", padx=10)
+        self.ent_costo = tk.Entry(card, textvariable=self.var_costo, font=font_ent, state="disabled", relief="flat", highlightbackground="#BDC3C7", highlightthickness=1)
+        self.ent_costo.grid(row=4, column=1, sticky="w", padx=10, ipady=3)
 
         # Número de sesiones
         tk.Label(card, text="📅 Número de sesiones:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=5, column=0, sticky="e", padx=10, pady=10)
-        self.ent_sesiones = tk.Entry(card, font=font_ent)
-        self.ent_sesiones.grid(row=5, column=1, sticky="w", padx=10)
+        self.ent_sesiones = tk.Entry(card, font=font_ent, relief="flat", highlightbackground="#BDC3C7", highlightcolor=self.c_accent, highlightthickness=2)
+        self.ent_sesiones.grid(row=5, column=1, sticky="w", padx=10, ipady=3)
 
         # Fecha Registro
         tk.Label(card, text="📅 Fecha de Registro:", font=font_lbl, bg=self.c_card, fg=self.c_text).grid(row=6, column=0, sticky="e", padx=10, pady=10)
         self.var_fecha = tk.StringVar(value=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        self.ent_fecha = tk.Entry(card, textvariable=self.var_fecha, font=font_ent, state="disabled", width=25)
-        self.ent_fecha.grid(row=6, column=1, sticky="w", padx=10)
+        self.ent_fecha = tk.Entry(card, textvariable=self.var_fecha, font=font_ent, state="disabled", width=25, relief="flat", highlightbackground="#BDC3C7", highlightthickness=1)
+        self.ent_fecha.grid(row=6, column=1, sticky="w", padx=10, ipady=3)
 
         # Botones de Acción
         frame_btns = tk.Frame(self.reg_window, bg=self.c_bg)
@@ -161,7 +161,7 @@ class SaborSazonApp:
         btn_reporte = tk.Button(frame_btns, text="📊 Ver Reporte", font=font_lbl, bg=self.c_btn_report, fg="#FFFFFF",
                   cursor="hand2", relief="flat", command=self.mostrar_reporte)
         btn_reporte.pack(side="left", padx=10, ipadx=10, ipady=8)
-        self.aplicar_hover(btn_reporte, self.c_btn_report, "#3498DB")
+        self.aplicar_hover(btn_reporte, self.c_btn_report, "#48C9B0")
 
         btn_salir = tk.Button(frame_btns, text="🚪 Salir", font=font_lbl, bg=self.c_btn_exit, fg="#FFFFFF",
                   cursor="hand2", relief="flat", command=self.salir_app)
