@@ -1,20 +1,26 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import messagebox, ttk
 from datetime import datetime
 
-class ClienteSaborSazon:
+# Clase para la gestion del cliente
+class GestionClientes:
     def __init__(self):
         self.identificacion = ""
         self.nombre_completo = ""
         self.genero = ""
         self.tipo_menu = ""
-        self.costo_sesion = 0
+        self.costo_sesion = 0.0
         self.num_sesiones = 0
         self.fecha_registro = ""
 
-    def calcular_costo_total(self):
-        return self.costo_sesion * self.num_sesiones
+    # Metodo que calcula el costo total
+    def calcular_costo_total(self, num_sesiones: int, costo_sesion: float) -> float:
+        return float(num_sesiones) * float(costo_sesion)
 
+# Variable global para guardar los datos instanciando la clase
+cliente_actual = GestionClientes()
+
+# Precios de los menus
 PRECIOS_MENU = {
     "Menú ejecutivo": 35000,
     "Menú vegetariano": 28000,
@@ -23,62 +29,104 @@ PRECIOS_MENU = {
     "Menú gourmet": 95000
 }
 
-cliente_actual = ClienteSaborSazon()
+# --- VENTANA DE REPORTE ---
+def abrir_ventana_reporte(parent):
+    total_pagar = cliente_actual.calcular_costo_total(cliente_actual.num_sesiones, cliente_actual.costo_sesion)
 
-def abrir_ventana_reporte(ventana_padre):
-    ven_rep = tk.Toplevel(ventana_padre)
+    ven_rep = tk.Toplevel(parent)
     ven_rep.title("Sabor & Sazón — Reporte")
-    ven_rep.geometry("400x450")
-    ven_rep.update_idletasks()
-    w, h = 400, 450
-    x = (ven_rep.winfo_screenwidth() // 2) - (w // 2)
-    y = (ven_rep.winfo_screenheight() // 2) - (h // 2)
-    ven_rep.geometry(f"{w}x{h}+{x}+{y}")
+    ven_rep.geometry("450x580")
     ven_rep.resizable(False, False)
     ven_rep.configure(bg="#F9F9F9")
 
-    # Header de reporte
-    tk.Label(ven_rep, text="FACTURA DE SERVICIO", font=("Segoe UI", 16, "bold"), bg="#1A365D", fg="white", pady=10).pack(fill="x")
+    # Encabezado
+    f_head = tk.Frame(ven_rep, bg="#800000", pady=14)
+    f_head.pack(fill="x")
+    tk.Label(f_head, text="📋  Reporte — Sabor & Sazón", font=("Segoe UI", 15, "bold"), fg="#F1C40F", bg="#800000").pack()
 
-    f_datos = tk.Frame(ven_rep, bg="white", padx=20, pady=20, bd=1, relief="solid")
-    f_datos.pack(fill="both", expand=True, padx=20, pady=20)
+    # Contenedor principal
+    f_content = tk.Frame(ven_rep, bg="#F9F9F9", padx=20, pady=15)
+    f_content.pack(fill="both", expand=True)
 
-    # Info
-    tk.Label(f_datos, text=f"Cliente: {cliente_actual.nombre_completo}", font=("Segoe UI", 10), bg="white").pack(anchor="w", pady=2)
-    tk.Label(f_datos, text=f"ID: {cliente_actual.identificacion}", font=("Segoe UI", 10), bg="white").pack(anchor="w", pady=2)
-    tk.Label(f_datos, text=f"Género: {cliente_actual.genero}", font=("Segoe UI", 10), bg="white").pack(anchor="w", pady=2)
-    tk.Label(f_datos, text=f"Tipo de Menú: {cliente_actual.tipo_menu}", font=("Segoe UI", 10), bg="white").pack(anchor="w", pady=2)
-    tk.Label(f_datos, text=f"Costo por Sesión: $ {cliente_actual.costo_sesion:,}", font=("Segoe UI", 10), bg="white").pack(anchor="w", pady=2)
-    tk.Label(f_datos, text=f"Sesiones Tomadas: {cliente_actual.num_sesiones}", font=("Segoe UI", 10), bg="white").pack(anchor="w", pady=2)
-    tk.Label(f_datos, text=f"Fecha: {cliente_actual.fecha_registro}", font=("Segoe UI", 10), bg="white").pack(anchor="w", pady=2)
+    # Tarjeta de usuario
+    f_card_user = tk.Frame(f_content, bg="white", highlightbackground="#E0E0E0", highlightthickness=1, padx=15, pady=12)
+    f_card_user.pack(fill="x", pady=(0, 12))
 
-    tk.Frame(f_datos, height=2, bg="#DDDDDD").pack(fill="x", pady=10)
+    # Avatar sencillo de cliente
+    lbl_avatar = tk.Label(f_card_user, text="👤", font=("Segoe UI", 18), fg="#800000", bg="#FFF2CC", width=3, height=1)
+    lbl_avatar.pack(side="left", padx=(0, 15))
 
-    total = cliente_actual.calcular_costo_total()
-    tk.Label(f_datos, text=f"COSTO TOTAL: $ {total:,}", font=("Segoe UI", 14, "bold"), fg="#800000", bg="white").pack(anchor="w", pady=5)
-    tk.Label(f_datos, text=f"Fórmula: {cliente_actual.num_sesiones} x $ {cliente_actual.costo_sesion:,}", font=("Segoe UI", 9, "italic"), fg="#888888", bg="white").pack(anchor="w")
+    f_user_info = tk.Frame(f_card_user, bg="white")
+    f_user_info.pack(side="left", fill="x", expand=True)
 
-    tk.Button(ven_rep, text="Cerrar Reporte", font=("Segoe UI", 10, "bold"), bg="#C0392B", fg="white", bd=0, cursor="hand2", command=ven_rep.destroy).pack(fill="x", padx=20, pady=(0, 20), ipady=8)
+    tk.Label(f_user_info, text=cliente_actual.nombre_completo, font=("Segoe UI", 12, "bold"), fg="#2C3E50", bg="white", anchor="w").pack(fill="x")
+    tk.Label(f_user_info, text="ID: " + str(cliente_actual.identificacion) + "  |  " + str(cliente_actual.genero), font=("Segoe UI", 9), fg="#7F8C8D", bg="white", anchor="w").pack(fill="x", pady=(3, 0))
 
+    # Detalles del servicio
+    f_card_det = tk.Frame(f_content, bg="white", highlightbackground="#E0E0E0", highlightthickness=1, padx=15, pady=12)
+    f_card_det.pack(fill="x")
+
+    def crear_fila(padre, icono, titulo, valor):
+        f_row = tk.Frame(padre, bg="white")
+        f_row.pack(fill="x", pady=5)
+        
+        f_left = tk.Frame(f_row, bg="white")
+        f_left.pack(side="left")
+        tk.Label(f_left, text=icono, font=("Segoe UI", 10), bg="white").pack(side="left", padx=(0, 6))
+        tk.Label(f_left, text=titulo, font=("Segoe UI", 9), fg="#555555", bg="white").pack(side="left")
+        
+        tk.Label(f_row, text=valor, font=("Segoe UI", 9, "bold"), fg="#2C3E50", bg="white").pack(side="right")
+
+    # Formateo simple de pesos
+    costo_str = "$ " + str(int(cliente_actual.costo_sesion))
+    total_str = "$ " + str(int(total_pagar))
+
+    crear_fila(f_card_det, "⚙️", "Tipo de menú", cliente_actual.tipo_menu)
+    crear_fila(f_card_det, "📅", "Sesiones tomadas", str(cliente_actual.num_sesiones))
+    crear_fila(f_card_det, "💳", "Costo por sesión", costo_str)
+    crear_fila(f_card_det, "🕒", "Fecha de registro", cliente_actual.fecha_registro)
+
+    tk.Frame(f_card_det, height=1, bg="#F0F0F0").pack(fill="x", pady=8)
+
+    # Mostrar total
+    r_total = tk.Frame(f_card_det, bg="#FFF2CC", padx=10, pady=8)
+    r_total.pack(fill="x")
+    tk.Label(r_total, text="💰 Costo total del servicio", font=("Segoe UI", 10, "bold"), fg="#800000", bg="#FFF2CC").pack(side="left")
+    tk.Label(r_total, text=total_str, font=("Segoe UI", 13, "bold"), fg="#800000", bg="#FFF2CC").pack(side="right")
+
+    # Texto con la formula
+    formula_txt = "costoTotal = " + str(cliente_actual.num_sesiones) + " sesiones × " + costo_str
+    tk.Label(f_card_det, text=formula_txt, font=("Segoe UI", 8, "italic"), fg="#7F8C8D", bg="white").pack(anchor="w", pady=(8, 0))
+
+    # Botones
+    f_bot = tk.Frame(f_content, bg="#F9F9F9")
+    f_bot.pack(fill="x", pady=(15, 0))
+
+    btn_imp = tk.Button(f_bot, text="🖨️ Imprimir", font=("Segoe UI", 9), bg="white", fg="#2C3E50", bd=1, relief="solid", cursor="hand2", command=lambda: messagebox.showinfo("Imprimir", "Enviando documento a la impresora..."))
+    btn_imp.pack(side="left", expand=True, fill="x", padx=(0, 5), ipady=5)
+
+    btn_cls = tk.Button(f_bot, text="❌ Cerrar reporte", font=("Segoe UI", 9, "bold"), bg="white", fg="#C0392B", bd=1, relief="solid", cursor="hand2", command=ven_rep.destroy)
+    btn_cls.pack(side="right", expand=True, fill="x", padx=(5, 0), ipady=5)
+
+# --- VENTANA DE REGISTRO ---
 def abrir_ventana_registro():
     ven_reg = tk.Tk()
-    ven_reg.title("Sabor & Sazón — Registro")
-    ven_reg.geometry("450x650")
-    ven_reg.update_idletasks()
-    w, h = 450, 650
-    x = (ven_reg.winfo_screenwidth() // 2) - (w // 2)
-    y = (ven_reg.winfo_screenheight() // 2) - (h // 2)
-    ven_reg.geometry(f"{w}x{h}+{x}+{y}")
+    ven_reg.title("Sabor & Sazón — Registro de Cliente")
+    ven_reg.geometry("520x600")
     ven_reg.resizable(False, False)
     ven_reg.configure(bg="#F9F9F9")
 
-    # Header
+    # Banner superior
     f_head = tk.Frame(ven_reg, bg="#800000", pady=12)
     f_head.pack(fill="x")
-    tk.Label(f_head, text="Registro de Cliente", font=("Segoe UI", 18, "bold"), bg="#800000", fg="#F1C40F").pack()
-    tk.Label(f_head, text="Por favor diligencie todos los datos", font=("Segoe UI", 9), bg="#800000", fg="white").pack()
+    
+    f_logo_title = tk.Frame(f_head, bg="#800000")
+    f_logo_title.pack()
+    tk.Label(f_logo_title, text="🍽️", font=("Segoe UI", 16), bg="#800000").pack(side="left", padx=(0, 8))
+    tk.Label(f_logo_title, text="Sabor & Sazón — Registro de Cliente", font=("Segoe UI", 14, "bold"), fg="#F1C40F", bg="#800000").pack(side="left")
 
-    f_card = tk.Frame(ven_reg, bg="white", bd=1, relief="solid", padx=25, pady=15)
+    # Card del formulario
+    f_card = tk.Frame(ven_reg, bg="white", highlightbackground="#E0E0E0", highlightthickness=1, padx=25, pady=20)
     f_card.pack(fill="both", expand=True, padx=20, pady=15)
 
     # Campo ID
@@ -193,11 +241,6 @@ def validar_acceso():
 ventana_login = tk.Tk()
 ventana_login.title("Sabor & Sazón — Acceso")
 ventana_login.geometry("440x490")
-ventana_login.update_idletasks()
-w, h = 440, 490
-x = (ventana_login.winfo_screenwidth() // 2) - (w // 2)
-y = (ventana_login.winfo_screenheight() // 2) - (h // 2)
-ventana_login.geometry(f"{w}x{h}+{x}+{y}")
 ventana_login.resizable(False, False)
 ventana_login.configure(bg="#F9F9F9")
 
@@ -240,5 +283,4 @@ btn_ingresar.pack(fill="x", ipady=9)
 # Pie de pagina
 tk.Label(ventana_login, text="Estructura de Datos · Cód. 301305 · ECBTI", font=("Segoe UI", 8, "bold"), fg="#A6ACAF", bg="#F9F9F9").pack(side="bottom", pady=12)
 
-if __name__ == "__main__":
-    ventana_login.mainloop()
+ventana_login.mainloop()
